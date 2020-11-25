@@ -1,5 +1,7 @@
 package es.uniovi.eii.buscarciudades
 
+import android.graphics.Color
+import android.graphics.Color.red
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
@@ -7,10 +9,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.CircleOptions
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 import es.uniovi.eii.sdm.buscarciudadeskot.datos.GestorCiudades
 import kotlinx.android.synthetic.main.activity_maps.*
 
@@ -19,6 +18,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
     private lateinit var postCiudad: LatLng
     val gc = GestorCiudades()
+    private lateinit var marcadorUsuario: Marker
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
@@ -29,7 +29,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         botonAceptar.setOnClickListener {
             clickAceptar()
         }
-        botonSiguiente.setOnClickListener { clickSiguiente() }
+        botonSiguiente.setOnClickListener {
+            clickSiguiente()
+        }
 
     }
 
@@ -46,6 +48,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     .strokeColor(0xff0000ff.toInt())
             )
         }
+        mMap.addPolyline(
+            PolylineOptions().add(postCiudad, marcadorUsuario.position).color(Color.RED)
+        )
     }
 
     fun clickSiguiente() {
@@ -53,10 +58,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mapaInical()
     }
 
-    fun controlGestos(){
-        var controles =mMap.getUiSettings()
-        controles.isZoomControlsEnabled=false
-        controles.isZoomGesturesEnabled=false
+    fun controlGestos() {
+        var controles = mMap.getUiSettings()
+        controles.isZoomControlsEnabled = false
+        controles.isZoomGesturesEnabled = false
     }
 
     /**
@@ -72,6 +77,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap = googleMap
         controlGestos()
         mapaInical()
+        mMap.setOnMapLongClickListener {
+            if (::marcadorUsuario.isInitialized) {
+                marcadorUsuario.remove()
+            }
+            val OpcionesMarca =
+                MarkerOptions().position(it).title("Marcador creado por el usuario")
+            mMap.addMarker(OpcionesMarca)
+        }
     }
 
     private fun mapaInical() {
