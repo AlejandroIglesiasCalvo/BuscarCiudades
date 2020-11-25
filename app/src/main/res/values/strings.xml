@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">BuscarCiudades</string>
-    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_maps">Buscar Ciudades (EII-SDM)</string>
+    <string name="Siguiente">Siguiente</string>
+    <string name="nombre_ciudad">Ciudad</string>
+    <string name="Aceptar">Aceptar</string>
 </resources>

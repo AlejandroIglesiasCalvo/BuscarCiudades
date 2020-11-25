@@ -7,20 +7,56 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.CircleOptions
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import es.uniovi.eii.sdm.buscarciudadeskot.datos.GestorCiudades
+import kotlinx.android.synthetic.main.activity_maps.*
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
-
+    private lateinit var postCiudad: LatLng
+    val gc = GestorCiudades()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
-                .findFragmentById(R.id.map) as SupportMapFragment
+            .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+        botonAceptar.setOnClickListener {
+            clickAceptar()
+        }
+        botonSiguiente.setOnClickListener { clickSiguiente() }
+
+    }
+
+    fun clickAceptar() {
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(postCiudad, 8f))
+        mMap.addMarker(
+            MarkerOptions().position(postCiudad)
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.estrella32))
+                .title("Posiscion Real")
+        )
+        for (i in 1..3) {
+            mMap.addCircle(
+                CircleOptions().center(postCiudad).radius(30000.0 * i).fillColor(0x000ff00)
+                    .strokeColor(0xff0000ff.toInt())
+            )
+        }
+    }
+
+    fun clickSiguiente() {
+        mMap.clear()
+        mapaInical()
+    }
+
+    fun controlGestos(){
+        var controles =mMap.getUiSettings()
+        controles.isZoomControlsEnabled=false
+        controles.isZoomGesturesEnabled=false
     }
 
     /**
@@ -34,10 +70,18 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
      */
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
+        controlGestos()
+        mapaInical()
+    }
 
-        // Add a marker in Sydney and move the camera
-        val sydney = LatLng(-34.0, 151.0)
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+    private fun mapaInical() {
+        val centro = LatLng(40.350911, -3.272910)
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(centro, 5.2f))
+        mMap.mapType = GoogleMap.MAP_TYPE_SATELLITE
+        val ciudad = gc.nextCiudad()
+        if (ciudad != null) {
+            campoCiudad.text = ciudad.nombre
+            postCiudad = LatLng(ciudad.latitud, ciudad.longitud)
+        }
     }
 }
