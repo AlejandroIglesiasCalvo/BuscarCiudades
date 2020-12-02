@@ -1,9 +1,10 @@
 package es.uniovi.eii.buscarciudades
 
 import android.graphics.Color
-import android.graphics.Color.red
+import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -51,6 +52,24 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.addPolyline(
             PolylineOptions().add(postCiudad, marcadorUsuario.position).color(Color.RED)
         )
+        val distancia = listOf(0.0f).toFloatArray()
+        Location.distanceBetween(
+            postCiudad.latitude,
+            postCiudad.longitude,
+            marcadorUsuario.position.latitude,
+            marcadorUsuario.position.longitude,
+            distancia
+        )
+        mostrarDistancia(distancia[0])
+    }
+
+    private fun mostrarDistancia(distancia: Float) {
+        val builder = AlertDialog.Builder(this@MapsActivity)
+
+        builder.setMessage("La distancia al punto real es: $distancia")//R.string.dialog_message)
+            .setTitle("Distancia")//R.string.dialog_title)
+        val dialog = builder.create()
+        dialog.show()
     }
 
     fun clickSiguiente() {
