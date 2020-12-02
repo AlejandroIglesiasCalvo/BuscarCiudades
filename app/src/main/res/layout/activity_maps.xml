@@ -1,43 +1,61 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/base"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/base"
     android:background="#c8c8c8">
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/Aceptar"
         android:id="@+id/botonAceptar"
-        android:onClick="onClickAceptar"
-        android:layout_centerHorizontal="true" />
-
-    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:map="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/botonAceptar"
+        android:onClick="onClickAceptar"
+        android:text="@string/Aceptar"
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintHorizontal_bias="0.498"
+        map:layout_constraintStart_toStartOf="parent"
+        map:layout_constraintTop_toTopOf="parent" />
+
+    <fragment
         android:id="@+id/map"
-        tools:context=".MapsActivity"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        map:layout_constraintStart_toStartOf="@+id/campoCiudad"
+        map:layout_constraintTop_toBottomOf="@+id/campoCiudad"
+        tools:context=".MapsActivity" />
 
     <Button
+        android:id="@+id/botonSiguiente"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginLeft="44dp"
+        android:onClick="onClickSiguiente"
         android:text="@string/Siguiente"
-        android:id="@+id/botonSiguiente"
-        android:layout_alignTop="@+id/botonAceptar"
-        android:layout_alignParentEnd="true"
-        android:onClick="onClickSiguiente" />
+        map:layout_constraintStart_toEndOf="@+id/botonAceptar"
+        map:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/campoCiudad"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_marginTop="18dp"
         android:text="@string/nombre_ciudad"
-        android:id="@+id/campoCiudad"
-        android:layout_above="@+id/map"
-        android:layout_alignParentStart="true" />
-</RelativeLayout>
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        map:layout_constraintStart_toStartOf="parent"
+        map:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/botonMostarPos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/mostrar_pos"
+        map:layout_constraintBottom_toBottomOf="parent"
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintHorizontal_bias="0.05"
+        map:layout_constraintStart_toStartOf="parent"
+        map:layout_constraintTop_toTopOf="parent"
+        map:layout_constraintVertical_bias="0.954" />
+</androidx.constraintlayout.widget.ConstraintLayout>

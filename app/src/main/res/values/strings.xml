@@ -4,4 +4,14 @@
     <string name="Siguiente">Siguiente</string>
     <string name="nombre_ciudad">Ciudad</string>
     <string name="Aceptar">Aceptar</string>
+    <string name="no_location_detected">No se ha detectado la localización actual</string>
+    <string name="permission_rationale">Permiso de localización necesario para indicar ubicación del usuario</string>
+    <string name="permission_denied_explanation">Debe conceder permiso de localización</string>
+    <string name="settings">Settings</string>
+    <string name="mostrar_pos">Mostrar Pos</string>
+    <string name="service_not_available">El servicio geocoder no está disponible</string>
+    <string name="invalid_lat_long_used">Latitud o longitud no validas</string>
+    <string name="no_address_found">No se ha encontrado ninguna dirección</string>
+    <string name="address_found">Dirección encontrada</string>
+    <string name="etiqueta_pista">Pista</string>
 </resources>
